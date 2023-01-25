@@ -21,7 +21,12 @@ export const Product = styled('div', {
   justifyContent: 'center',
 
   img: {
+    padding: '5.5rem',
     objectFit: 'cover',
+
+    '@media (max-height: 767px)': {
+      padding: 0,
+    },
   },
 
   footer: {
@@ -37,7 +42,7 @@ export const Product = styled('div', {
     alignItems: 'center',
     justifyContent: 'space-between',
 
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(0,0,0,0.75)',
     transform: 'translateY(110%)',
     opacity: 0,
     transition: 'all 200ms ease-in-out',
