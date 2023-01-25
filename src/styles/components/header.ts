@@ -9,6 +9,10 @@ export const HeaderContainer = styled('header', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+
+  img: {
+    cursor: 'pointer',
+  },
 })
 
 export const IconGray = styled('div', {
