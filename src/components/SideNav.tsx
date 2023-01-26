@@ -1,5 +1,6 @@
+import axios from "axios";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { slide as Menu } from "react-burger-menu";
 
 import { ShoppingCart } from "../context/ShoppingCartContext";
@@ -12,22 +13,29 @@ export function SideNav() {
   const { productList, removeToCart, valueTotal, productSize } =
     useContext(ShoppingCart)
 
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState<boolean>(false)
+
   const shoppingCartIsEmpty = productSize == 0
 
-  // async function handleBuyProduct() {
-  //   try {
-  //     setIsCreatingCheckoutSession(true)
-  //     const { data } = await axios.post('/api/checkout', {
-  //       priceId: defaultPriceId,
-  //     })
+  async function handleBuyProduct() {
+    const items = productList.map((product) => ({
+      price: product.defaultPriceId,
+      quantity: 1,
+    }))
 
-  //     window.location.href = data.checkoutUrl
-  //   } catch (error) {
-  //     //Datadog / Sentry
-  //     setIsCreatingCheckoutSession(false)
-  //     alert('Falha ao redirecionar ao checkout!')
-  //   }
-  // }
+    try {
+      setIsCreatingCheckoutSession(true)
+      const { data } = await axios.post('/api/checkout', {
+        lineItems: items,
+      })
+
+      window.location.href = data.checkoutUrl
+    } catch (error) {
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao redirecionar ao checkout!')
+    }
+  }
 
   return (
     <SideNavContainer>
@@ -80,7 +88,12 @@ export function SideNav() {
               <ins>{priceFormatter.format(valueTotal / 100)}</ins>
             </p>
           </article>
-          <Button disabled={shoppingCartIsEmpty}>Finalizar Compra</Button>
+          <Button
+            onClick={handleBuyProduct}
+            disabled={shoppingCartIsEmpty || isCreatingCheckoutSession}
+          >
+            Finalizar Compra
+          </Button>
         </Content>
       </Menu>
     </SideNavContainer>
