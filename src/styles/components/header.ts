@@ -1,4 +1,4 @@
-import { styled } from "..";
+import { styled } from '..'
 
 export const HeaderContainer = styled('header', {
   padding: '2rem 0',
@@ -15,7 +15,7 @@ export const HeaderContainer = styled('header', {
   },
 })
 
-export const IconGray = styled('div', {
+export const Icon = styled('div', {
   position: 'relative',
   borderRadius: 6,
   padding: '0.75rem',
@@ -26,24 +26,19 @@ export const IconGray = styled('div', {
   backgroundColor: '$gray800',
   cursor: 'pointer',
 
-  svg: {
-    color: '$gray400',
-  },
-})
-
-export const IconWhite = styled('div', {
-  position: 'relative',
-  borderRadius: 6,
-  padding: '0.75rem',
-
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '$gray800',
-  cursor: 'pointer',
-
-  svg: {
-    color: '$gray300',
+  variants: {
+    color: {
+      gray: {
+        svg: {
+          color: '$gray400',
+        },
+      },
+      white: {
+        svg: {
+          color: '$gray300',
+        },
+      },
+    },
   },
 })
 
