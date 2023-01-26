@@ -24,20 +24,9 @@ export function ShoppingCartProvider({ children }: ContextProps) {
 
   function addToCart(newProduct: IProduct) {
     setProducts((state) => {
-      const newProductId = newProduct.id
-      const productExists = state.find((product) => product.id === newProductId)
-
-      if (productExists) {
-        return state.map((product) => product.id === newProductId && product)
-      }
-
-      return [
-        ...state,
-        {
-          ...newProduct,
-          quantity: 1,
-        },
-      ]
+      return state.find((product) => product.id === newProduct.id)
+        ? [...state]
+        : [...state, newProduct]
     })
   }
 
