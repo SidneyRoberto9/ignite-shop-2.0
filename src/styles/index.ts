@@ -1,4 +1,4 @@
-import { createStitches } from "@stitches/react";
+import { createStitches } from '@stitches/react'
 
 export const {
   theme,
@@ -24,6 +24,7 @@ export const {
 
     fontSizes: {
       sm: '0.875rem',
+      m: '1rem',
       md: '1.125rem',
       lg: '1.25rem',
       xl: '1.5rem',
