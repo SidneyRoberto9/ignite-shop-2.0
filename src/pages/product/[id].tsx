@@ -1,48 +1,29 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Stripe from "stripe";
 
+import { ShoppingCart } from "../../context/ShoppingCartContext";
+import { IProduct } from "../../domain/Product";
 import { stripe } from "../../lib/stripe";
 import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product";
 import { priceFormatter } from "../../util/format";
 
 interface ProductProps {
-  product: {
-    id: string
-    name: string
-    price: string
-    imageUrl: string
-    description: string
-    defaultPriceId: string
-  }
+  product: IProduct
 }
 
 export default function Product({ product }: ProductProps) {
+  const { addToCart } = useContext(ShoppingCart)
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
 
   const { name, imageUrl, price, description, defaultPriceId } = product
 
   function handleAddToCart() {
-    console.log('add to cart')
+    addToCart(product)
   }
-
-  // async function handleBuyProduct() {
-  //   try {
-  //     setIsCreatingCheckoutSession(true)
-  //     const { data } = await axios.post('/api/checkout', {
-  //       priceId: defaultPriceId,
-  //     })
-
-  //     window.location.href = data.checkoutUrl
-  //   } catch (error) {
-  //     //Datadog / Sentry
-  //     setIsCreatingCheckoutSession(false)
-  //     alert('Falha ao redirecionar ao checkout!')
-  //   }
-  // }
 
   return (
     <>
@@ -57,7 +38,7 @@ export default function Product({ product }: ProductProps) {
 
         <ProductDetails>
           <h1>{name}</h1>
-          <span>{price}</span>
+          <span>{priceFormatter.format(price / 100)}</span>
 
           <p>{description}</p>
 
@@ -103,9 +84,10 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        description: product.description,
+        quantity: 1,
         defaultPriceId: price.id,
-        price: priceFormatter.format(price.unit_amount / 100),
+        description: product.description,
+        price: price.unit_amount,
       },
     },
     revalidate: 60 * 60 * 5, // 5 hours

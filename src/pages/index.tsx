@@ -4,23 +4,21 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { Bag } from "phosphor-react";
-import React, { ButtonHTMLAttributes, MouseEvent } from "react";
+import { useContext } from "react";
 import Stripe from "stripe";
 
+import { ShoppingCart } from "../context/ShoppingCartContext";
+import { IProduct } from "../domain/Product";
 import { stripe } from "../lib/stripe";
 import { HomeContainer, Icon, Product } from "../styles/pages/home";
 import { priceFormatter } from "../util/format";
 
 interface HomeProps {
-  products: {
-    id: string
-    name: string
-    price: string
-    imageUrl: string
-  }[]
+  products: IProduct[]
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addToCart } = useContext(ShoppingCart)
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -28,9 +26,12 @@ export default function Home({ products }: HomeProps) {
     },
   })
 
-  function handleAddToCart(event: React.MouseEvent<HTMLButtonElement>) {
+  function handleAddToCart(
+    event: React.MouseEvent<HTMLButtonElement>,
+    product: IProduct,
+  ) {
     event.preventDefault()
-    console.log('add to cart')
+    addToCart(product)
   }
 
   return (
@@ -40,16 +41,20 @@ export default function Home({ products }: HomeProps) {
       </Head>
 
       <HomeContainer ref={sliderRef} className="keen-slider">
-        {products.map(({ id, name, price, imageUrl }) => (
-          <Link key={id} prefetch={false} href={`/product/${id}`}>
+        {products.map((product) => (
+          <Link
+            key={product.id}
+            prefetch={false}
+            href={`/product/${product.id}`}
+          >
             <Product className="keen-slider__slide">
-              <Image src={imageUrl} width={560} height={480} alt="" />
+              <Image src={product.imageUrl} width={560} height={480} alt="" />
               <footer>
                 <div>
-                  <strong>{name}</strong>
-                  <span>{price}</span>
+                  <strong>{product.name}</strong>
+                  <span>{priceFormatter.format(product.price / 100)}</span>
                 </div>
-                <Icon onClick={handleAddToCart}>
+                <Icon onClick={(event) => handleAddToCart(event, product)}>
                   <Bag size={24} />
                 </Icon>
               </footer>
@@ -72,10 +77,14 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: priceFormatter.format(price.unit_amount / 100),
+      quantity: 1,
+      defaultPriceId: price.id,
+      description: product.description,
+      price: price.unit_amount,
     }
   })
 
+  //Usando esse filtro only my products
   const productsData = products.filter(
     (product) => product.name !== 'Subscription',
   )
