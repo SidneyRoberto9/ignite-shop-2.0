@@ -16,8 +16,6 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) {
   const { addToCart } = useContext(ShoppingCart)
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false)
 
   const { name, imageUrl, price, description, defaultPriceId } = product
 
@@ -42,12 +40,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{description}</p>
 
-          <button
-            onClick={handleAddToCart}
-            disabled={isCreatingCheckoutSession}
-          >
-            Coloca na Sacola
-          </button>
+          <button onClick={handleAddToCart}>Coloca na Sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>
