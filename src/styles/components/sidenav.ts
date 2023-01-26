@@ -1,4 +1,4 @@
-import { styled } from '..'
+import { styled } from "..";
 
 export const SideNavContainer = styled('div', {
   position: 'relative',
@@ -14,7 +14,9 @@ export const SideNavContainer = styled('div', {
     fontSize: '$lg',
     color: '$gray100',
     lineHeight: 1.6,
+
     padding: '3rem',
+    paddingBottom: '2.5rem',
   },
 
   '.bm-cross': {
@@ -36,8 +38,8 @@ export const SideNavContainer = styled('div', {
 export const ItemsContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
   padding: '0 3rem',
   gap: '1.5rem',
 })
@@ -165,7 +167,12 @@ export const Button = styled('button', {
 
   transition: 'background-color 200ms ease-in-out',
 
-  '&:hover': {
+  '&:disabled': {
+    filter: 'grayscale(0.6)',
+    cursor: 'not-allowed',
+  },
+
+  '&:not(:disabled):hover': {
     backgroundColor: '$green300',
   },
 })

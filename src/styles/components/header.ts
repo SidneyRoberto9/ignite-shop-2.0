@@ -1,4 +1,4 @@
-import { styled } from '..'
+import { styled } from "..";
 
 export const HeaderContainer = styled('header', {
   padding: '2rem 0',
@@ -48,6 +48,7 @@ export const NotificationItems = styled('span', {
   right: '-0.75rem',
   width: '1.5rem',
   height: '1.5rem',
+  userSelect: 'none',
 
   fontWeight: 700,
   fontSize: '$sm',
