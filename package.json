@@ -12,6 +12,7 @@
     "@next/font": "13.1.5",
     "@stitches/react": "^1.2.8",
     "axios": "^1.2.4",
+    "immer": "^9.0.18",
     "keen-slider": "^6.8.5",
     "next": "13.1.5",
     "phosphor-react": "^1.4.1",
