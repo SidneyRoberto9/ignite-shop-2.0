@@ -52,7 +52,7 @@ export function SideNav() {
 
           <ItemsContainer>
             {productList.map((product) => (
-              <Item id={product.id}>
+              <Item key={product.id}>
                 <ins>
                   <Image
                     src={product.imageUrl}
@@ -70,7 +70,7 @@ export function SideNav() {
                     </strong>
                   </small>
 
-                  <span onClick={() => removeToCart(product.id)}>remover</span>
+                  <span onClick={() => removeToCart(product.id)}>Remover</span>
                 </article>
               </Item>
             ))}

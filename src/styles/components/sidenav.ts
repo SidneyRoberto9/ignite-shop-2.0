@@ -1,6 +1,6 @@
 import { styled } from "..";
 
-export const SideNavContainer = styled('div', {
+export const SideNavContainer = styled('section', {
   position: 'relative',
 
   '.bm-item-list': {
@@ -35,7 +35,7 @@ export const SideNavContainer = styled('div', {
   },
 })
 
-export const ItemsContainer = styled('div', {
+export const ItemsContainer = styled('main', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -44,7 +44,7 @@ export const ItemsContainer = styled('div', {
   gap: '1.5rem',
 })
 
-export const Content = styled('div', {
+export const Content = styled('article', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
